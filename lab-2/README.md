@@ -24,6 +24,18 @@ https://denysmatsevych.github.io/web-development-2026/react/labs/lab-2/
 
 ```text
 App
+├── Header
+├── Card «Тімлід»
+│   └── Avatar            size={120}
+└── Card «Команда»
+    ├── Profile key=1     Олена Коваль
+    │   └── Avatar        size = 64 за замовчуванням
+    ├── Profile key=2     Андрій Мельник
+    │   └── Avatar
+    ├── Profile key=3     Ірина Бондар
+    │   └── Avatar
+    └── Profile key=4     Максим Ткаченко
+        └── Avatar
 ```
 
 ## Дерево залежностей модулів
@@ -32,4 +44,12 @@ App
 
 ```text
 main.jsx
+├── index.css
+└── App.jsx
+    ├── components/Header.jsx
+    ├── components/Avatar.jsx
+    ├── components/Profile.jsx
+    │   └── components/Avatar.jsx
+    ├── components/Card.jsx
+    └── data.js
 ```
