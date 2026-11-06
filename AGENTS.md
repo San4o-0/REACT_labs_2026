@@ -1,21 +1,40 @@
 # AGENTS.md
 
-A single-page app on React 19 and Vite 8, in JavaScript with JSX. No
+Labs for the React course, one folder per lab. Each `lab-N/` folder is a
+separate single-page app on React 19 and Vite 8, in JavaScript with JSX. No
 TypeScript yet. User-facing text is in Ukrainian.
+
+## Repository layout
+
+- `lab-N/`: one lab, with its own `package.json`, ESLint and Prettier
+  configuration
+- `package.json` in the root: npm workspaces over the `lab-*` folders, so all
+  labs share one `package-lock.json` and one `node_modules/`
+- `AGENTS.md`, `.gitattributes`, `.gitignore`, `.vscode/`: shared by all labs
 
 ## Commands
 
-- `npm install`: install dependencies
+Run `npm install` in the repository root. Run every other command inside the
+lab's folder, for example `lab-1/`:
+
 - `npm run dev`: dev server at http://localhost:5173
 - `npm run lint`: ESLint
-- `npm run format`: format all files with Prettier
+- `npm run format`: format the lab's files with Prettier
 - `npm run format:check`: check formatting without changing files
-- `npm run build`: production build into `dist/`
+- `npm run build`: production build into the lab's `dist/`
 
 A task is done only when `npm run lint`, `npm run format:check` and
-`npm run build` pass. Run all three and report their results.
+`npm run build` pass in the lab's folder. Run all three and report their
+results.
 
-## Project structure
+## Scope
+
+- Work only in the folder of the lab the task names. If the task doesn't name
+  a lab, ask.
+- Don't change other labs' folders, and don't import code from one lab into
+  another.
+
+## Lab structure
 
 - `index.html`: the page Vite serves; the app mounts into `<div id="root">`
 - `src/main.jsx`: entry point; renders `<App />` inside `<StrictMode>`
@@ -42,10 +61,12 @@ A task is done only when `npm run lint`, `npm run format:check` and
 ## Dependencies and configuration
 
 - Don't add, remove or upgrade npm packages without asking first, and say why
-  a package is needed.
+  a package is needed. Install a package from inside the folder of the lab
+  that needs it, never in the repository root.
 - Don't run `npm audit fix --force`.
-- Don't change `eslint.config.js`, `.prettierrc.json`, `vite.config.js` or
-  the scripts in `package.json` unless the task is about them.
+- Don't change the root `package.json`, or a lab's `eslint.config.js`,
+  `.prettierrc.json`, `vite.config.js` or `package.json` scripts, unless the
+  task is about them.
 - Never turn off ESLint rules or add `eslint-disable` comments. Fix the cause.
 
 ## How to work
