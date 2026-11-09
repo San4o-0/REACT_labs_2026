@@ -1,0 +1,127 @@
+/* Стилі всієї сторінки. Класи (.app, .search-bar, .menu-table, .category,
+   .item, .unavailable) уже стоять у розмітці App.jsx: переносьте їх у
+   компоненти разом із розміткою. */
+
+:root {
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: #1f2937;
+  background: #f3f5f9;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 16px 56px;
+}
+
+.app {
+  display: grid;
+  gap: 20px;
+}
+
+.app h1 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+/* Пошук */
+
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+}
+
+.search-bar input[type='search'] {
+  flex: 1 1 240px;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+.search-bar label {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-bar input:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Таблиця меню */
+
+.menu-table {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 6%);
+}
+
+.menu-table th,
+.menu-table td {
+  padding: 10px 20px;
+  text-align: left;
+}
+
+/* Стовпець «Ціна» */
+
+.menu-table thead th:last-child,
+.menu-table td {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.menu-table thead th {
+  color: #6b7280;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Рядок категорії */
+
+.category th {
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+/* Рядок позиції */
+
+.item th,
+.item td {
+  border-top: 1px solid #f1f5f9;
+}
+
+.item th {
+  font-weight: 400;
+}
+
+.unavailable th,
+.unavailable td {
+  color: #9ca3af;
+}
