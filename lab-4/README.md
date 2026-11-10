@@ -30,9 +30,11 @@ https://denysmatsevych.github.io/web-development-2026/react/labs/lab-4/
 
 ```mermaid
 flowchart TD
-  App --> SearchBar
-  App --> MenuTable
+  App -->|"filterText, inStockOnly"| SearchBar
+  App -->|"menu, filterText, inStockOnly"| MenuTable
   App --> CafeInfo
-  MenuTable --> MenuCategory["MenuCategory × 3"]
-  MenuCategory --> MenuItemRow["MenuItemRow × 4, 3, 3"]
+  MenuTable -->|category| MenuCategory["MenuCategory × 3"]
+  MenuCategory -->|item| MenuItemRow["MenuItemRow × 4, 3, 3"]
+  SearchBar -.->|"onFilterTextChange, onInStockOnlyChange"| App
+  App -.->|setItem| Storage[("localStorage")]
 ```
