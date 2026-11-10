@@ -15,6 +15,11 @@ export default function FilterableMenuTable({ menu }) {
     localStorage.setItem('menu.inStockOnly', String(inStockOnly))
   }, [filterText, inStockOnly])
 
+  function handleReset() {
+    setFilterText('')
+    setInStockOnly(false)
+  }
+
   return (
     <>
       <SearchBar
@@ -22,6 +27,7 @@ export default function FilterableMenuTable({ menu }) {
         inStockOnly={inStockOnly}
         onFilterTextChange={setFilterText}
         onInStockOnlyChange={setInStockOnly}
+        onReset={handleReset}
       />
       <MenuTable
         menu={menu}

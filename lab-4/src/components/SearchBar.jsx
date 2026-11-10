@@ -3,6 +3,7 @@ export default function SearchBar({
   inStockOnly,
   onFilterTextChange,
   onInStockOnlyChange,
+  onReset,
 }) {
   return (
     <search className="search-bar">
@@ -21,6 +22,9 @@ export default function SearchBar({
         />{' '}
         Лише в наявності
       </label>
+      <button type="button" onClick={onReset}>
+        Скинути фільтри
+      </button>
     </search>
   )
 }

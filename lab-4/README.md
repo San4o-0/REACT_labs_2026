@@ -36,7 +36,7 @@ flowchart TD
   FilterableMenuTable -->|"menu, filterText, inStockOnly"| MenuTable
   MenuTable -->|category| MenuCategory["MenuCategory × 3"]
   MenuCategory -->|item| MenuItemRow["MenuItemRow × 4, 3, 3"]
-  SearchBar -.->|"onFilterTextChange, onInStockOnlyChange"| FilterableMenuTable
+  SearchBar -.->|"onFilterTextChange, onInStockOnlyChange, onReset"| FilterableMenuTable
   FilterableMenuTable -.->|setItem| Storage[("localStorage")]
 ```
 
