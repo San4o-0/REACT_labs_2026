@@ -1,6 +1,9 @@
 import MenuCategory from './MenuCategory.jsx'
+import { filterMenu } from '../filterMenu.js'
 
-export default function MenuTable({ menu }) {
+export default function MenuTable({ menu, filterText, inStockOnly }) {
+  const visibleMenu = filterMenu(menu, filterText, inStockOnly)
+
   return (
     <table className="menu-table">
       <thead>
@@ -9,7 +12,7 @@ export default function MenuTable({ menu }) {
           <th scope="col">Ціна</th>
         </tr>
       </thead>
-      {menu.map((category) => (
+      {visibleMenu.map((category) => (
         <MenuCategory key={category.id} category={category} />
       ))}
     </table>
