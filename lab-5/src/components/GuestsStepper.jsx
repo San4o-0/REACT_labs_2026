@@ -1,17 +1,13 @@
-import { useState } from 'react'
-
 const MIN = 1
 const MAX = 8
 
-export default function GuestsStepper({ defaultValue }) {
-  const [guests, setGuests] = useState(defaultValue)
-
+export default function GuestsStepper({ value, onChange }) {
   function handleDecrement() {
-    setGuests((g) => Math.max(MIN, g - 1))
+    onChange(Math.max(MIN, value - 1))
   }
 
   function handleIncrement() {
-    setGuests((g) => Math.min(MAX, g + 1))
+    onChange(Math.min(MAX, value + 1))
   }
 
   return (
@@ -21,22 +17,22 @@ export default function GuestsStepper({ defaultValue }) {
         <button
           type="button"
           aria-label="Менше гостей"
-          aria-disabled={guests === MIN}
+          aria-disabled={value === MIN}
           onClick={handleDecrement}
         >
           −
         </button>
-        <output>{guests}</output>
+        <output>{value}</output>
         <button
           type="button"
           aria-label="Більше гостей"
-          aria-disabled={guests === MAX}
+          aria-disabled={value === MAX}
           onClick={handleIncrement}
         >
           +
         </button>
       </div>
-      <input type="hidden" name="guests" value={guests} />
+      <input type="hidden" name="guests" value={value} />
     </fieldset>
   )
 }
