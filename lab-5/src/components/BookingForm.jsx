@@ -38,7 +38,7 @@ export default function BookingForm() {
           <input type="time" name="time" required />
         </label>
       </div>
-      <GuestsStepper />
+      <GuestsStepper defaultValue={2} />
       <label>
         Коментар
         <textarea
