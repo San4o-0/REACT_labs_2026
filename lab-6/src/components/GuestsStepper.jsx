@@ -32,7 +32,6 @@ export default function GuestsStepper({ value, onChange }) {
           +
         </button>
       </div>
-      <input type="hidden" name="guests" value={value} />
     </fieldset>
   )
 }
