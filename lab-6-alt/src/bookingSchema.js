@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import * as yup from 'yup'
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -15,33 +15,47 @@ export function nowTime() {
   return `${pad(d.getHours())}:${pad(d.getMinutes())}`
 }
 
-// §4.2: опишіть тут правила форми бронювання.
-export const bookingSchema = z
+export const bookingSchema = yup
   .object({
-    name: z.string().trim().min(2, "Вкажіть ім'я: щонайменше дві літери"),
-    phone: z
+    name: yup
       .string()
+      .required("Вкажіть ім'я: щонайменше дві літери")
       .trim()
-      .regex(/^\+380\d{9}$/, 'Вкажіть телефон у форматі +380XXXXXXXXX'),
-    date: z
+      .min(2, "Вкажіть ім'я: щонайменше дві літери"),
+    phone: yup
       .string()
-      .min(1, 'Оберіть дату')
-      .refine((date) => date >= today(), 'Ця дата вже минула'),
-    time: z
+      .required('Вкажіть телефон у форматі +380XXXXXXXXX')
+      .trim()
+      .matches(/^\+380\d{9}$/, 'Вкажіть телефон у форматі +380XXXXXXXXX'),
+    date: yup
       .string()
-      .min(1, 'Оберіть час')
-      .refine(
-        (time) => time >= '08:00' && time <= '20:00',
-        'Столик можна забронювати з 8:00 до 20:00',
+      .required('Оберіть дату')
+      .test(
+        'not-past',
+        'Ця дата вже минула',
+        (date) => !date || date >= today(),
       ),
-    guests: z.coerce
+    time: yup
+      .string()
+      .required('Оберіть час')
+      .test(
+        'opening-hours',
+        'Столик можна забронювати з 8:00 до 20:00',
+        (time) => !time || (time >= '08:00' && time <= '20:00'),
+      ),
+    guests: yup
       .number()
-      .int()
+      .typeError('Вкажіть кількість гостей')
+      .integer()
       .min(1, 'Щонайменше 1 гість')
       .max(8, 'Не більше 8 гостей'),
-    comment: z.string().trim().max(200, 'Коментар — до 200 символів'),
+    comment: yup.string().trim().max(200, 'Коментар — до 200 символів'),
   })
-  .refine((data) => data.date !== today() || data.time > nowTime(), {
-    error: 'Цей час сьогодні вже минув',
-    path: ['time'],
+  .test('time-not-passed', function (data) {
+    if (!data.time || data.date !== today() || data.time > nowTime())
+      return true
+    return this.createError({
+      path: 'time',
+      message: 'Цей час сьогодні вже минув',
+    })
   })
