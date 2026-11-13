@@ -1,0 +1,262 @@
+/* Стилі всієї сторінки. Класи (.app, .lead, .booking-form, .field,
+   .field-error, .row, .stepper, .stepper-controls, .counter, .actions,
+   .status) уже стоять у розмітці компонентів; .subscribe-form — для форми
+   підписки з §4.7. */
+
+:root {
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: #1f2937;
+  background: #f3f5f9;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 16px 56px;
+}
+
+.app {
+  display: grid;
+  gap: 16px;
+}
+
+.app h1 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.app h2 {
+  margin: 16px 0 12px;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+
+.lead {
+  margin: 0;
+  color: #4b5563;
+}
+
+/* Форми */
+
+.booking-form,
+.subscribe-form {
+  display: grid;
+  gap: 16px;
+  padding: 24px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 6%);
+}
+
+.booking-form label,
+.subscribe-form label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.booking-form input,
+.booking-form textarea,
+.subscribe-form input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-weight: 400;
+}
+
+.booking-form textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* Поле й повідомлення про помилку під ним. Порожнє повідомлення не займає
+   місця. */
+
+.field {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.field-error {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+/* Поле з помилкою: червона рамка */
+
+.booking-form [aria-invalid='true'],
+.subscribe-form [aria-invalid='true'] {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px #dc2626;
+}
+
+/* Дата й час в один рядок, на вузькому екрані — один під одним */
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* Кількість гостей */
+
+.stepper {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.stepper legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.stepper-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.stepper button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stepper button:hover {
+  background: #f8fafc;
+}
+
+/* Кнопка на межі (1 або 8 гостей): виглядає неактивною, але фокус не втрачає */
+
+.stepper button[aria-disabled='true'] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stepper output {
+  min-width: 2ch;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Лічильник символів під коментарем */
+
+.counter {
+  margin: -10px 0 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+/* Кнопки форм */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.actions button,
+.subscribe-form button {
+  padding: 10px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.actions button:hover,
+.subscribe-form button:hover {
+  background: #f8fafc;
+}
+
+.actions button[type='submit'],
+.subscribe-form button[type='submit'] {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+}
+
+.actions button[type='submit']:hover,
+.subscribe-form button[type='submit']:hover {
+  background: #1d4ed8;
+}
+
+.subscribe-form button {
+  justify-self: start;
+}
+
+/* Кнопка, поки запит надсилається: виглядає неактивною, але фокус не
+   втрачає */
+
+.actions button[aria-disabled='true'],
+.subscribe-form button[aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.booking-form input:focus-visible,
+.booking-form textarea:focus-visible,
+.booking-form button:focus-visible,
+.subscribe-form input:focus-visible,
+.subscribe-form button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Відповідь на бронювання. Елемент є на сторінці завжди, навіть порожній:
+   так програма зчитування з екрана оголосить текст, щойно він з'явиться. */
+
+.status {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.status.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.status:empty {
+  padding: 0;
+}
