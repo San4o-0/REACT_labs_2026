@@ -1,4 +1,5 @@
 import BookingForm from './components/BookingForm.jsx'
+import SubscribeForm from './components/SubscribeForm.jsx'
 
 export default function App() {
   return (
@@ -9,6 +10,10 @@ export default function App() {
         Заброньований столик чекає на вас 15 хвилин.
       </p>
       <BookingForm />
+      <section>
+        <h2>Новини кав'ярні</h2>
+        <SubscribeForm />
+      </section>
     </main>
   )
 }
