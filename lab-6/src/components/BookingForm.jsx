@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import GuestsStepper from './GuestsStepper.jsx'
+import { bookingSchema } from '../bookingSchema.js'
 import { describeBooking } from '../describeBooking.js'
 
 const defaultValues = {
@@ -14,8 +16,19 @@ const defaultValues = {
 
 export default function BookingForm() {
   const [booking, setBooking] = useState(null)
-  const { register, control, handleSubmit, reset, setFocus } = useForm({
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    setFocus,
+    getValues,
+    trigger,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(bookingSchema),
     defaultValues,
+    mode: 'onTouched',
   })
   const comment = useWatch({ control, name: 'comment' })
 
@@ -38,15 +51,24 @@ export default function BookingForm() {
   return (
     <form
       className="booking-form"
+      noValidate
       onSubmit={handleSubmit(onValid)}
       onKeyDown={handleKeyDown}
     >
       <div className="field">
         <label>
           Ім'я
-          <input {...register('name')} autoComplete="name" required />
+          <input
+            {...register('name')}
+            autoComplete="name"
+            required
+            aria-invalid={errors.name ? 'true' : 'false'}
+            aria-describedby="name-error"
+          />
         </label>
-        <p id="name-error" className="field-error"></p>
+        <p id="name-error" className="field-error">
+          {errors.name?.message}
+        </p>
       </div>
       <div className="field">
         <label>
@@ -57,24 +79,48 @@ export default function BookingForm() {
             autoComplete="tel"
             placeholder="+380671234567"
             required
+            aria-invalid={errors.phone ? 'true' : 'false'}
+            aria-describedby="phone-error"
           />
         </label>
-        <p id="phone-error" className="field-error"></p>
+        <p id="phone-error" className="field-error">
+          {errors.phone?.message}
+        </p>
       </div>
       <div className="row">
         <div className="field">
           <label>
             Дата
-            <input type="date" {...register('date')} required />
+            <input
+              type="date"
+              {...register('date', {
+                onChange: () => {
+                  if (getValues('time')) trigger('time')
+                },
+              })}
+              required
+              aria-invalid={errors.date ? 'true' : 'false'}
+              aria-describedby="date-error"
+            />
           </label>
-          <p id="date-error" className="field-error"></p>
+          <p id="date-error" className="field-error">
+            {errors.date?.message}
+          </p>
         </div>
         <div className="field">
           <label>
             Час
-            <input type="time" {...register('time')} required />
+            <input
+              type="time"
+              {...register('time')}
+              required
+              aria-invalid={errors.time ? 'true' : 'false'}
+              aria-describedby="time-error"
+            />
           </label>
-          <p id="time-error" className="field-error"></p>
+          <p id="time-error" className="field-error">
+            {errors.time?.message}
+          </p>
         </div>
       </div>
       <Controller
