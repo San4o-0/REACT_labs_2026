@@ -1,14 +1,8 @@
-import { useEffect, useState } from 'react'
 import { grindOptions } from '../data.js'
+import { useLocalStorage } from '../hooks/useLocalStorage.js'
 
 export default function GrindPicker() {
-  const [grind, setGrind] = useState(
-    () => localStorage.getItem('grind') ?? 'beans',
-  )
-
-  useEffect(() => {
-    localStorage.setItem('grind', grind)
-  }, [grind])
+  const [grind, setGrind] = useLocalStorage('grind', 'beans')
 
   return (
     <fieldset className="grind-picker">
