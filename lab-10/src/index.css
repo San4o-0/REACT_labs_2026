@@ -1,0 +1,549 @@
+/* Стилі всього застосунку. Класи вже стоять у розмітці компонентів. */
+
+:root {
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: #2b211b;
+  background: #f7f3ee;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px 56px;
+}
+
+a {
+  color: #7a4a2a;
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: #643b20;
+}
+
+/* Шапка: назва крамниці й «Кошик (N)» */
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e8dfd6;
+}
+
+.app-header .brand {
+  color: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.app-header .cart-link {
+  padding: 8px 16px;
+  border: 1px solid #d6c8bb;
+  border-radius: 999px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-header .cart-link:hover {
+  background: #fbf8f5;
+}
+
+.app {
+  display: grid;
+  gap: 32px;
+}
+
+.app h1 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.app h2 {
+  margin: 0 0 16px;
+  font-size: 1.375rem;
+  line-height: 1.3;
+}
+
+.app h3 {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.3;
+}
+
+.app p {
+  margin: 0;
+}
+
+.lead {
+  color: #6b5d52;
+}
+
+/* Картки: товар, сорти в каталозі й у «Схожих товарах», таймери, відгуки,
+   рядки кошика */
+
+.product-card,
+.bean-card,
+.brew-timer,
+.review-list li,
+.cart-line {
+  border: 1px solid #e8dfd6;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(43 33 27 / 6%);
+}
+
+/* Товар */
+
+.product-card {
+  display: grid;
+  gap: 16px;
+  padding: 24px 20px;
+}
+
+.product-title {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.price span {
+  color: #6b5d52;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* «Додати в кошик» і рядок «У кошику: N» поруч. Рядок з role="status" є на
+   сторінці завжди, навіть порожній, щоб програма зчитування з екрана
+   оголошувала нове число. */
+
+.cart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+}
+
+.cart-status {
+  color: #166534;
+  font-weight: 600;
+}
+
+/* ♡: aria-pressed="true" — товар в обраному */
+
+.favorite-button {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e8dfd6;
+  border-radius: 50%;
+  background: #fff;
+  color: #6b5d52;
+  font: inherit;
+  font-size: 1.375rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.favorite-button:hover {
+  background: #fbf8f5;
+}
+
+.favorite-button[aria-pressed='true'] {
+  border-color: #f3c4c4;
+  color: #c02626;
+}
+
+/* Помел: перемикачі-«пігулки» */
+
+.grind-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.grind-picker legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.grind-picker label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid #e8dfd6;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.grind-picker label:has(input:checked) {
+  border-color: #7a4a2a;
+  background: #f6ede6;
+}
+
+.grind-picker input {
+  margin: 0;
+  accent-color: #7a4a2a;
+}
+
+/* Каталог і «Схожі товари»: сітка карток сортів */
+
+.bean-grid,
+.related-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.bean-grid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+.related-list {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.bean-grid > li,
+.related-list > li {
+  display: grid;
+}
+
+.bean-card {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 16px;
+}
+
+.bean-card h3 {
+  padding-right: 44px;
+}
+
+.bean-card h3 a {
+  color: inherit;
+}
+
+.bean-card p:not(.price, .cart-status) {
+  color: #6b5d52;
+  font-size: 0.9375rem;
+}
+
+.bean-card .price {
+  margin-top: 4px;
+  font-size: 1.0625rem;
+}
+
+.bean-card .favorite-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.125rem;
+}
+
+.bean-card .cart {
+  margin-top: 8px;
+}
+
+/* Остання клітинка сітки «Схожі товари»: кнопка займає всю клітинку */
+
+.related-more {
+  min-height: 140px;
+}
+
+.related-more .show-more {
+  border-style: dashed;
+  border-width: 2px;
+  border-radius: 16px;
+  background: transparent;
+  font-weight: 600;
+}
+
+.related-more .show-more:hover {
+  background: #fff;
+}
+
+/* Таймери заварювання */
+
+.brew-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.brew-timer {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+}
+
+.brew-timer > p:not([class]) {
+  color: #6b5d52;
+}
+
+.time {
+  font-size: 3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* Повідомлення «Готово!». Абзац є на сторінці завжди, навіть порожній: так
+   програма зчитування з екрана оголосить текст, щойно він з'явиться. Висота
+   зарезервована, щоб кнопки під ним не стрибали. */
+
+.timer-done {
+  min-height: 1.5em;
+  color: #166534;
+  font-weight: 600;
+}
+
+.timer-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Кнопки: Button (.button), кнопки таймерів, «Показати ще» і кнопки
+   рядка кошика */
+
+.button,
+.timer-controls button,
+.show-more,
+.quantity button,
+.cart-line .remove {
+  padding: 10px 18px;
+  border: 1px solid #d6c8bb;
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.button:hover,
+.timer-controls button:hover,
+.show-more:hover,
+.quantity button:hover:enabled,
+.cart-line .remove:hover {
+  background: #fbf8f5;
+}
+
+/* Головна дія: «Додати в кошик» і перша кнопка таймера в будь-якому стані */
+
+.cart .button,
+.timer-controls button:first-child {
+  min-width: 132px;
+  border-color: #7a4a2a;
+  background: #7a4a2a;
+  color: #fff;
+  font-weight: 600;
+}
+
+.cart .button:hover,
+.timer-controls button:first-child:hover {
+  background: #643b20;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #7a4a2a;
+  outline-offset: 2px;
+}
+
+/* Вкладки: ряд вкладок з лінією знизу; обрана підкреслена */
+
+.tabs {
+  display: grid;
+  gap: 24px;
+}
+
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid #e8dfd6;
+}
+
+.tab-list button {
+  margin-bottom: -1px;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 8px 8px 0 0;
+  background: none;
+  color: #6b5d52;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-list button:hover {
+  background: #fbf8f5;
+  color: #2b211b;
+}
+
+.tab-list [aria-selected='true'] {
+  border-bottom-color: #7a4a2a;
+  color: #2b211b;
+}
+
+/* На вузькому екрані три вкладки вміщуються в один ряд */
+
+@media (width <= 480px) {
+  .tab-list button {
+    padding: 10px 8px;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Панель вкладки, коли до неї дійшли клавішею Tab */
+
+[role='tabpanel']:focus-visible {
+  border-radius: 8px;
+  outline: 2px solid #7a4a2a;
+  outline-offset: 8px;
+}
+
+/* Відгуки */
+
+.review-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.review-list li {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 16px;
+}
+
+.review-author {
+  font-weight: 600;
+}
+
+.review-author span {
+  color: #b45309;
+  letter-spacing: 1px;
+}
+
+/* Кошик */
+
+.cart-page {
+  display: grid;
+  gap: 24px;
+}
+
+.cart-lines {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.cart-line-name {
+  flex: 1 1 200px;
+}
+
+.app .cart-line h2 {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.cart-line-name p {
+  color: #6b5d52;
+  font-size: 0.9375rem;
+}
+
+.quantity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.quantity button {
+  width: 40px;
+  padding: 6px 0;
+  font-weight: 700;
+}
+
+.quantity button:disabled {
+  color: #b8aca2;
+  cursor: not-allowed;
+}
+
+.quantity span {
+  min-width: 3.5em;
+  text-align: center;
+}
+
+.cart-line-sum {
+  min-width: 5em;
+  font-weight: 700;
+  text-align: right;
+}
+
+.cart-line .remove {
+  padding: 6px 14px;
+  color: #b91c1c;
+}
+
+.cart-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.cart-empty a {
+  margin-left: 4px;
+}
