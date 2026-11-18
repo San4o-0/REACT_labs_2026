@@ -5,7 +5,7 @@ import {
   removeItem,
   setQuantity,
   subscribe,
-} from '../lib/cartStore.js'
+} from '../stores/cartStore.js'
 
 export function useCart() {
   const lines = useSyncExternalStore(subscribe, getLines)

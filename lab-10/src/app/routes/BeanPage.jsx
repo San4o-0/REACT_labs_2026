@@ -1,12 +1,13 @@
-import BrewGuide from './BrewGuide.jsx'
-import NotFound from '../../shared/components/NotFound.jsx'
-import ProductCard from './ProductCard.jsx'
-import RelatedProducts from './RelatedProducts.jsx'
-import ReviewList from './ReviewList.jsx'
-import Tabs from './Tabs.jsx'
-import { beans } from '../../shared/data/beans.js'
-import { brewMethods } from './brewMethods.js'
-import { reviews } from './reviews.js'
+import BrewGuide from '../../features/brewing/components/BrewGuide.jsx'
+import NotFound from '../../components/NotFound.jsx'
+import ProductCard from '../../features/beans/components/ProductCard.jsx'
+import RelatedProducts from '../../features/beans/components/RelatedProducts.jsx'
+import ReviewList from '../../features/reviews/components/ReviewList.jsx'
+import Tabs from '../../components/Tabs.jsx'
+import { beans } from '../../features/beans/data/beans.js'
+import { brewMethods } from '../../features/brewing/data/brewMethods.js'
+import { reviews } from '../../features/reviews/data/reviews.js'
+import AddToCartButton from '../../features/cart/components/AddToCartButton.jsx'
 
 export default function BeanPage({ beanId }) {
   const bean = beans.find((item) => item.id === beanId)
@@ -17,7 +18,9 @@ export default function BeanPage({ beanId }) {
 
   return (
     <>
-      <ProductCard product={bean} />
+      <ProductCard product={bean}>
+        <AddToCartButton bean={bean} />
+      </ProductCard>
       <Tabs defaultValue="brew">
         <Tabs.List aria-label="Про каву">
           <Tabs.Tab value="brew">Заварювання</Tabs.Tab>

@@ -1,4 +1,4 @@
-import { useShowMore } from './useShowMore.js'
+import { useShowMore } from '../hooks/useShowMore.js'
 
 export default function ShowMore({ items, step = 3, children }) {
   const { visibleItems, hiddenCount, showMore, collapse } = useShowMore(

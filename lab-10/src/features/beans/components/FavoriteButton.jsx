@@ -1,4 +1,4 @@
-import { useLocalStorage } from '../hooks/useLocalStorage.js'
+import { useLocalStorage } from '../../../hooks/useLocalStorage.js'
 
 export default function FavoriteButton({ productId, name }) {
   const [isFavorite, setIsFavorite] = useLocalStorage(

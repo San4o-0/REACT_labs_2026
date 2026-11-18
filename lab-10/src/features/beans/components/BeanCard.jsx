@@ -1,10 +1,9 @@
 import { useId } from 'react'
-import { paths } from '../lib/paths.js'
-import AddToCartButton from './AddToCartButton.jsx'
+import { paths } from '../../../utils/paths.js'
 import FavoriteButton from './FavoriteButton.jsx'
-import Link from './Link.jsx'
+import Link from '../../../components/Link.jsx'
 
-export default function BeanCard({ bean, compact = false }) {
+export default function BeanCard({ bean, children }) {
   const titleId = useId()
 
   return (
@@ -15,7 +14,7 @@ export default function BeanCard({ bean, compact = false }) {
       <p>{bean.notes.join(', ')}</p>
       <p className="price">{bean.price} грн</p>
       <FavoriteButton productId={bean.id} name={bean.name} />
-      {!compact && <AddToCartButton bean={bean} />}
+      {children}
     </article>
   )
 }

@@ -1,6 +1,6 @@
-import { useCart } from '../shared/hooks/useCart.js'
-import { paths } from '../shared/lib/paths.js'
-import Link from '../shared/components/Link.jsx'
+import { useCart } from '../features/cart/hooks/useCart.js'
+import { paths } from '../utils/paths.js'
+import Link from '../components/Link.jsx'
 
 export default function AppHeader() {
   const { count } = useCart()

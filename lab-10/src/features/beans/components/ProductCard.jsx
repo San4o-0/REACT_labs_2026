@@ -1,8 +1,7 @@
-import AddToCartButton from '../../shared/components/AddToCartButton.jsx'
-import FavoriteButton from '../../shared/components/FavoriteButton.jsx'
+import FavoriteButton from './FavoriteButton.jsx'
 import GrindPicker from './GrindPicker.jsx'
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, children }) {
   return (
     <article className="product-card">
       <div className="product-title">
@@ -16,7 +15,7 @@ export default function ProductCard({ product }) {
       <p className="price">
         {product.price} грн <span>за {product.weight}</span>
       </p>
-      <AddToCartButton bean={product} />
+      {children}
     </article>
   )
 }
