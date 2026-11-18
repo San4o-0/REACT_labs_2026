@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "imports": {
-    "#app": "./src/App.jsx"
+    "#app": "./src/app/App.jsx"
   },
   "scripts": {
     "dev": "vite",

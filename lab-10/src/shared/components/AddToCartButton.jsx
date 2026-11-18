@@ -1,4 +1,4 @@
-import { withAnalytics } from '../hoc/withAnalytics.jsx'
+import { withAnalytics } from '../lib/withAnalytics.jsx'
 import { useCart } from '../hooks/useCart.js'
 import Button from './Button.jsx'
 

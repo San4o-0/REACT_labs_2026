@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import { paths } from '../utils/paths.js'
+import { paths } from '../lib/paths.js'
 import AddToCartButton from './AddToCartButton.jsx'
 import FavoriteButton from './FavoriteButton.jsx'
 import Link from './Link.jsx'

@@ -1,5 +1,5 @@
-import BeanCard from '../components/BeanCard.jsx'
-import { beans } from '../data/beans.js'
+import BeanCard from '../../shared/components/BeanCard.jsx'
+import { beans } from '../../shared/data/beans.js'
 
 export default function CatalogPage() {
   return (
