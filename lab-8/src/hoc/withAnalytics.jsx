@@ -1,3 +1,5 @@
+import { track } from '../analytics.js'
+
 /**
  * Компонент вищого порядку (HOC): отримує компонент і повертає новий, який
  * рендерить `Component` з тими самими props, а під час кліку ще й надсилає
@@ -10,9 +12,19 @@
  *     Додати в кошик
  *   </AddToCartButton>
  *
- * Поки що повертає `Component` без змін. Вимоги — у тестах
- * tests/withAnalytics.test.jsx.
+ * Вимоги — у тестах tests/withAnalytics.test.jsx.
  */
-export function withAnalytics(Component) {
-  return Component
+export function withAnalytics(Component, event) {
+  function WithAnalytics({ analyticsData, onClick, ...props }) {
+    function handleClick(e) {
+      track(event, analyticsData)
+      onClick?.(e)
+    }
+
+    return <Component {...props} onClick={handleClick} />
+  }
+
+  const name = Component.displayName || Component.name || 'Component'
+  WithAnalytics.displayName = `withAnalytics(${name})`
+  return WithAnalytics
 }
