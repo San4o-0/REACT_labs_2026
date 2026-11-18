@@ -1,4 +1,4 @@
-import { useCart } from '../../../entities/cart/index.js'
+import { useCart } from '@coffee/cart'
 import { paths } from '../../../shared/config/index.js'
 import Link from '../../../shared/ui/Link.jsx'
 
