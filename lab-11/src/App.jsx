@@ -1,5 +1,6 @@
 import { useReducer, useState } from 'react'
 import OrderBoard from './components/OrderBoard.jsx'
+import HistoryButtons from './components/HistoryButtons.jsx'
 import OrderComposer from './components/OrderComposer.jsx'
 import OrderDetails from './components/OrderDetails.jsx'
 import { loadOrders } from './data/orders.js'
@@ -8,11 +9,19 @@ import {
   queueReducer,
   selectOrder,
 } from './model/queueReducer.js'
+import { createHistory, withUndo } from './model/withUndo.js'
+
+// Створюється один раз, а не під час кожного рендеру: ред'юсер має бути
+// тією самою функцією між рендерами.
+const undoableQueueReducer = withUndo(queueReducer)
 
 export default function App() {
-  const [queue, dispatch] = useReducer(queueReducer, null, () =>
-    createInitialState(loadOrders()),
+  // В історію входить лише черга: чернетка форми й відкрите замовлення
+  // живуть окремо, тож «Скасувати дію» їх не чіпає.
+  const [history, dispatch] = useReducer(undoableQueueReducer, null, () =>
+    createHistory(createInitialState(loadOrders())),
   )
+  const queue = history.present
   // id замовлення, відкритого в «Деталях», або null. Саме замовлення
   // береться з черги, тож «Деталі» завжди показують його таким, як на дошці.
   const [openedOrderId, setOpenedOrderId] = useState(null)
@@ -40,6 +49,12 @@ export default function App() {
       <div className="workspace">
         <OrderComposer onPlace={handlePlace} />
         <main className="queue">
+          <HistoryButtons
+            canUndo={history.past.length > 0}
+            canRedo={history.future.length > 0}
+            onUndo={() => dispatch({ type: 'undo' })}
+            onRedo={() => dispatch({ type: 'redo' })}
+          />
           <OrderDetails
             order={selectOrder(queue, openedOrderId)}
             dispatch={dispatch}
