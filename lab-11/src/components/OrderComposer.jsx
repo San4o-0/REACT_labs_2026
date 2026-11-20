@@ -1,63 +1,18 @@
-import { useId, useState } from 'react'
-import { defaultMilk, drinks, priceOf } from '../data/menu.js'
+import { useId, useReducer } from 'react'
+import { drinks, priceOf } from '../data/menu.js'
+import { draftReducer, emptyDraft } from '../model/draftReducer.js'
 import DraftItem from './DraftItem.jsx'
 
 export default function OrderComposer({ onPlace }) {
   const titleId = useId()
-  const [customerName, setCustomerName] = useState('')
-  const [items, setItems] = useState([])
-  const [total, setTotal] = useState(0)
-
-  function handleNameChange(e) {
-    setCustomerName(e.target.value)
-  }
-
-  function handleAddDrink(drink) {
-    const item = {
-      id: crypto.randomUUID(),
-      drink,
-      size: 'M',
-      milk: defaultMilk(drink),
-      syrups: [],
-    }
-    setItems([...items, item])
-    setTotal(total + priceOf(item))
-  }
-
-  function handleSizeChange(itemId, size) {
-    const item = items.find((i) => i.id === itemId)
-    const changed = { ...item, size }
-    setItems(items.map((i) => (i.id === itemId ? changed : i)))
-    setTotal(total - priceOf(item) + priceOf(changed))
-  }
-
-  function handleMilkChange(itemId, milk) {
-    const item = items.find((i) => i.id === itemId)
-    const changed = { ...item, milk }
-    setItems(items.map((i) => (i.id === itemId ? changed : i)))
-    setTotal(total - priceOf(item) + priceOf(changed))
-  }
-
-  function handleSyrupToggle(itemId, syrup) {
-    const item = items.find((i) => i.id === itemId)
-    const syrups = item.syrups.includes(syrup)
-      ? item.syrups.filter((s) => s !== syrup)
-      : [...item.syrups, syrup]
-    const changed = { ...item, syrups }
-    setItems(items.map((i) => (i.id === itemId ? changed : i)))
-    setTotal(total - priceOf(item) + priceOf(changed))
-  }
-
-  function handleRemove(itemId) {
-    setItems(items.filter((i) => i.id !== itemId))
-  }
+  const [draft, dispatch] = useReducer(draftReducer, emptyDraft)
+  const { customerName, items } = draft
+  const total = items.reduce((sum, item) => sum + priceOf(item), 0)
 
   function handleSubmit(e) {
     e.preventDefault()
     onPlace({ customerName: customerName.trim(), items })
-    setCustomerName('')
-    setItems([])
-    setTotal(0)
+    dispatch({ type: 'draft_cleared' })
   }
 
   const canPlace = customerName.trim() !== '' && items.length > 0
@@ -73,7 +28,9 @@ export default function OrderComposer({ onPlace }) {
         Ім'я гостя
         <input
           value={customerName}
-          onChange={handleNameChange}
+          onChange={(e) =>
+            dispatch({ type: 'customer_changed', name: e.target.value })
+          }
           autoComplete="off"
         />
       </label>
@@ -82,7 +39,13 @@ export default function OrderComposer({ onPlace }) {
           <button
             key={drink.name}
             type="button"
-            onClick={() => handleAddDrink(drink.name)}
+            onClick={() =>
+              dispatch({
+                type: 'drink_added',
+                id: crypto.randomUUID(),
+                drink: drink.name,
+              })
+            }
           >
             + {drink.name}
           </button>
@@ -94,10 +57,18 @@ export default function OrderComposer({ onPlace }) {
             <li key={item.id}>
               <DraftItem
                 item={item}
-                onSizeChange={(size) => handleSizeChange(item.id, size)}
-                onMilkChange={(milk) => handleMilkChange(item.id, milk)}
-                onSyrupToggle={(syrup) => handleSyrupToggle(item.id, syrup)}
-                onRemove={() => handleRemove(item.id)}
+                onSizeChange={(size) =>
+                  dispatch({ type: 'size_chosen', itemId: item.id, size })
+                }
+                onMilkChange={(milk) =>
+                  dispatch({ type: 'milk_chosen', itemId: item.id, milk })
+                }
+                onSyrupToggle={(syrup) =>
+                  dispatch({ type: 'syrup_toggled', itemId: item.id, syrup })
+                }
+                onRemove={() =>
+                  dispatch({ type: 'item_removed', itemId: item.id })
+                }
               />
             </li>
           ))}
