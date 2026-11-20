@@ -1,3 +1,4 @@
+import { produce } from 'immer'
 import { defaultMilk } from '../data/menu.js'
 
 /**
@@ -40,58 +41,45 @@ export const emptyDraft = Object.freeze({
  * Поки що кидає помилку. Вимоги — у тестах tests/draftReducer.test.js і
  * tests/OrderComposer.test.jsx.
  */
-export function draftReducer(state, action) {
+export const draftReducer = produce((draft, action) => {
   switch (action.type) {
     case 'customer_changed':
-      return { ...state, customerName: action.name }
+      draft.customerName = action.name
+      break
     case 'drink_added':
-      return {
-        ...state,
-        items: [
-          ...state.items,
-          {
-            id: action.id,
-            drink: action.drink,
-            size: 'M',
-            milk: defaultMilk(action.drink),
-            syrups: [],
-          },
-        ],
-      }
+      draft.items.push({
+        id: action.id,
+        drink: action.drink,
+        size: 'M',
+        milk: defaultMilk(action.drink),
+        syrups: [],
+      })
+      break
     case 'size_chosen':
-      return updateItem(state, action.itemId, (item) => ({
-        ...item,
-        size: action.size,
-      }))
+      findItem(draft, action.itemId).size = action.size
+      break
     case 'milk_chosen':
-      return updateItem(state, action.itemId, (item) => ({
-        ...item,
-        milk: action.milk,
-      }))
-    case 'syrup_toggled':
-      return updateItem(state, action.itemId, (item) => ({
-        ...item,
-        syrups: item.syrups.includes(action.syrup)
-          ? item.syrups.filter((syrup) => syrup !== action.syrup)
-          : [...item.syrups, action.syrup],
-      }))
-    case 'item_removed':
-      return {
-        ...state,
-        items: state.items.filter((item) => item.id !== action.itemId),
-      }
+      findItem(draft, action.itemId).milk = action.milk
+      break
+    case 'syrup_toggled': {
+      const { syrups } = findItem(draft, action.itemId)
+      const index = syrups.indexOf(action.syrup)
+      if (index === -1) syrups.push(action.syrup)
+      else syrups.splice(index, 1)
+      break
+    }
+    case 'item_removed': {
+      const index = draft.items.findIndex((item) => item.id === action.itemId)
+      draft.items.splice(index, 1)
+      break
+    }
     case 'draft_cleared':
       return emptyDraft
     default:
       throw new Error(`Unknown draft action: ${action.type}`)
   }
-}
+})
 
-function updateItem(state, itemId, change) {
-  return {
-    ...state,
-    items: state.items.map((item) =>
-      item.id === itemId ? change(item) : item,
-    ),
-  }
+function findItem(draft, itemId) {
+  return draft.items.find((item) => item.id === itemId)
 }
